@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Star, Quote } from "lucide-react";
+import TiltCard from "./TiltCard";
 
 const testimonials = [
   {
@@ -54,7 +55,7 @@ export default function Testimonials() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="testimonials" className="py-24 relative" ref={ref}>
+    <section id="testimonials" className="pt-16 pb-32 relative" ref={ref}>
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,41 +86,42 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass rounded-2xl p-6 glow-hover transition-all duration-300 group"
             >
-              {/* Quote icon */}
-              <Quote className="w-8 h-8 text-accent/30 mb-4 group-hover:text-accent/50 transition-colors" />
+              <TiltCard tiltIntensity={8} className="glass rounded-2xl p-6 glow-hover transition-all duration-300 group h-full card-underglow">
+                {/* Quote icon */}
+                <Quote className="w-8 h-8 text-accent/30 mb-4 group-hover:text-accent/50 transition-colors" />
 
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                  />
-                ))}
-              </div>
-
-              {/* Content */}
-              <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                &ldquo;{testimonial.content}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm">
-                  {testimonial.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
+                {/* Stars */}
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-4 h-4 fill-yellow-400 text-yellow-400"
+                    />
+                  ))}
                 </div>
-                <div>
-                  <p className="text-white font-semibold text-sm">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-gray-500 text-xs">{testimonial.role}</p>
+
+                {/* Content */}
+                <p className="text-gray-300 text-sm leading-relaxed mb-6">
+                  &ldquo;{testimonial.content}&rdquo;
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm avatar-underglow">
+                    {testimonial.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold text-sm">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-gray-500 text-xs">{testimonial.role}</p>
+                  </div>
                 </div>
-              </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

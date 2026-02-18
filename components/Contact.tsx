@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
 
 const contactInfo = [
   {
@@ -25,15 +25,94 @@ const contactInfo = [
   },
 ];
 
+function PeekingCharacter() {
+  return (
+    <motion.div
+      initial={{ x: 80, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
+      className="absolute -right-4 md:right-0 bottom-32 md:bottom-24 z-20 pointer-events-none hidden lg:block"
+    >
+      <svg
+        width="140"
+        height="200"
+        viewBox="0 0 140 200"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Body */}
+        <rect x="30" y="60" width="80" height="100" rx="40" fill="#1d4ed8" />
+        {/* Head */}
+        <circle cx="70" cy="50" r="35" fill="#1d4ed8" />
+        {/* Eyes — white sclera */}
+        <ellipse cx="57" cy="45" rx="9" ry="10" fill="white" />
+        <ellipse cx="83" cy="45" rx="9" ry="10" fill="white" />
+        {/* Pupils — looking left toward the form */}
+        <circle cx="54" cy="46" r="5" fill="#1a1a2e" />
+        <circle cx="80" cy="46" r="5" fill="#1a1a2e" />
+        {/* Eye shine */}
+        <circle cx="56" cy="44" r="2" fill="white" />
+        <circle cx="82" cy="44" r="2" fill="white" />
+        {/* Smile */}
+        <path
+          d="M58 60 Q70 72 82 60"
+          stroke="#1a1a2e"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        {/* Left arm waving */}
+        <motion.g
+          animate={{ rotate: [0, -12, 0, -12, 0] }}
+          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+          style={{ originX: "30px", originY: "90px" }}
+        >
+          <rect x="5" y="80" width="30" height="14" rx="7" fill="#1e40af" />
+          {/* Hand */}
+          <circle cx="8" cy="87" r="8" fill="#1e40af" />
+        </motion.g>
+        {/* Right arm holding onto the edge */}
+        <rect x="105" y="85" width="30" height="14" rx="7" fill="#1e40af" />
+        {/* Feet */}
+        <ellipse cx="50" cy="162" rx="14" ry="8" fill="#1e40af" />
+        <ellipse cx="90" cy="162" rx="14" ry="8" fill="#1e40af" />
+        {/* Speech bubble */}
+        <motion.g
+          animate={{ y: [0, -4, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <rect x="0" y="2" width="54" height="28" rx="14" fill="white" />
+          <polygon points="40,28 48,38 34,28" fill="white" />
+          <text
+            x="27"
+            y="20"
+            textAnchor="middle"
+            fontSize="11"
+            fontWeight="bold"
+            fill="#1d4ed8"
+          >
+            Hi! 👋
+          </text>
+        </motion.g>
+      </svg>
+    </motion.div>
+  );
+}
+
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="contact" className="py-24 relative" ref={ref}>
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary/30 to-transparent" />
+    <section id="contact" className="pt-16 pb-32 relative overflow-hidden" ref={ref}>
+      {/* Peeking character on the right */}
+      <PeekingCharacter />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background accents */}
+      <div className="absolute top-1/3 -left-32 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -44,10 +123,10 @@ export default function Contact() {
           <span className="text-accent font-semibold text-sm uppercase tracking-wider">
             Contact Us
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mt-3 mb-4">
             Let&apos;s <span className="gradient-text">work together</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             Have a project in mind? We&apos;d love to hear about it. Reach out and
             let&apos;s discuss how we can help.
           </p>
@@ -61,59 +140,61 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-3"
           >
-            <form className="glass rounded-2xl p-8 space-y-6">
+            <form className="glass rounded-2xl p-8 md:p-10 space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">
+                  <label className="block text-sm text-gray-400 mb-2 font-medium">
                     Your Name
                   </label>
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className="w-full bg-navy-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                    className="contact-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">
+                  <label className="block text-sm text-gray-400 mb-2 font-medium">
                     Your Email
                   </label>
                   <input
                     type="email"
                     placeholder="john@example.com"
-                    className="w-full bg-navy-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                    className="contact-input"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm text-gray-400 mb-2 font-medium">
                   Subject
                 </label>
                 <input
                   type="text"
                   placeholder="How can we help?"
-                  className="w-full bg-navy-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                  className="contact-input"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm text-gray-400 mb-2 font-medium">
                   Message
                 </label>
                 <textarea
                   rows={5}
                   placeholder="Tell us about your project..."
-                  className="w-full bg-navy-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent transition-colors resize-none"
+                  className="contact-input resize-none"
                 />
               </div>
 
-              <button
+              <motion.button
                 type="submit"
-                className="gradient-bg text-white px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity glow"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="gradient-bg text-white px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity glow btn-underglow"
               >
                 Send Message
                 <Send className="w-4 h-4" />
-              </button>
+              </motion.button>
             </form>
           </motion.div>
 
@@ -122,38 +203,46 @@ export default function Contact() {
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="lg:col-span-2 space-y-6"
+            className="lg:col-span-2 space-y-5"
           >
-            {contactInfo.map((info, index) => (
+            {contactInfo.map((info) => (
               <a
                 key={info.label}
                 href={info.href}
-                className="glass glass-hover glow-hover rounded-xl p-6 flex items-center gap-4 transition-all duration-300 block"
+                className="glass rounded-xl p-5 flex items-center gap-4 transition-all duration-300 block group hover:border-accent/20 card-underglow"
               >
-                <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center shrink-0">
-                  <info.icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors icon-underglow">
+                  <info.icon className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">{info.label}</p>
-                  <p className="text-white font-medium">{info.value}</p>
+                  <p className="text-sm text-gray-500">{info.label}</p>
+                  <p className="text-white font-semibold text-sm">{info.value}</p>
                 </div>
               </a>
             ))}
 
-            {/* Extra CTA */}
-            <div className="glass rounded-xl p-6">
-              <h3 className="text-lg font-bold text-white mb-2">
-                Ready to get started?
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Book a free 30-minute consultation to discuss your project.
-              </p>
-              <a
-                href="#"
-                className="gradient-bg text-white px-6 py-2.5 rounded-full text-sm font-semibold inline-block hover:opacity-90 transition-opacity"
-              >
-                Book a Call
-              </a>
+            {/* Book a Call CTA */}
+            <div className="glass rounded-xl p-6 relative overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-accent/10 rounded-full blur-2xl" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <MessageCircle className="w-5 h-5 text-accent" />
+                  <h3 className="text-lg font-bold text-white">
+                    Ready to get started?
+                  </h3>
+                </div>
+                <p className="text-gray-400 text-sm mb-4">
+                  Book a free 30-minute consultation to discuss your project.
+                </p>
+                <motion.a
+                  href="#"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="gradient-bg text-white px-6 py-2.5 rounded-full text-sm font-semibold inline-flex items-center gap-2 hover:opacity-90 transition-opacity btn-underglow"
+                >
+                  Book a Call
+                </motion.a>
+              </div>
             </div>
           </motion.div>
         </div>

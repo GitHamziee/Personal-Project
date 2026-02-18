@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy-950: #0a0f1c;
-  --color-navy-900: #0d1326;
-  --color-navy-800: #111830;
-  --color-navy-700: #1a2342;
-  --color-navy-600: #243054;
-  --color-accent: #3b82f6;
-  --color-accent-light: #60a5fa;
-  --color-accent-dark: #2563eb;
-  --color-secondary: #8b5cf6;
-  --color-secondary-light: #a78bfa;
+  --color-navy-950: #0a0a0a;
+  --color-navy-900: #111111;
+  --color-navy-800: #1a1a1a;
+  --color-navy-700: #262626;
+  --color-navy-600: #333333;
+  --color-accent: #1d4ed8;
+  --color-accent-light: #2563eb;
+  --color-accent-dark: #1e40af;
+  --color-secondary: #0e7490;
+  --color-secondary-light: #0891b2;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -44,19 +44,19 @@ body {
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(17, 24, 48, 0.7);
+  background: rgba(17, 17, 17, 0.7);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(29, 78, 216, 0.15);
 }
 
 .glass-hover:hover {
-  background: rgba(17, 24, 48, 0.85);
-  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(17, 17, 17, 0.85);
+  border-color: rgba(29, 78, 216, 0.3);
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #1d4ed8, #0e7490);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -64,7 +64,7 @@ body {
 
 /* Animated gradient background */
 .gradient-bg {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #3b82f6);
+  background: linear-gradient(135deg, #1d4ed8, #0e7490, #1d4ed8);
   background-size: 200% 200%;
   animation: gradient-shift 3s ease infinite;
 }
@@ -77,9 +77,349 @@ body {
 
 /* Glow effect */
 .glow {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 20px rgba(29, 78, 216, 0.3);
 }
 
 .glow-hover:hover {
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 30px rgba(29, 78, 216, 0.5), 0 0 60px rgba(14, 116, 144, 0.2);
+}
+
+/* ---- Underglow Effects ---- */
+
+/* Button underglow — glowing light pool beneath CTA buttons */
+.btn-underglow {
+  position: relative;
+  z-index: 0;
+  overflow: visible;
+}
+
+.btn-underglow::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: linear-gradient(135deg, #1d4ed8, #0e7490);
+  border-radius: inherit;
+  filter: blur(20px);
+  opacity: 0.4;
+  z-index: -1;
+  transform: translateY(8px) scaleX(0.85);
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.btn-underglow:hover::after {
+  opacity: 0.65;
+  filter: blur(28px);
+  transform: translateY(10px) scaleX(0.95);
+}
+
+/* Glass / secondary button underglow */
+.btn-underglow-secondary {
+  position: relative;
+  z-index: 0;
+}
+
+.btn-underglow-secondary::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: rgba(29, 78, 216, 0.15);
+  border-radius: inherit;
+  filter: blur(16px);
+  opacity: 0;
+  z-index: -1;
+  transform: translateY(6px);
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.btn-underglow-secondary:hover::after {
+  opacity: 1;
+}
+
+/* Card underglow on hover */
+.card-underglow {
+  transition: box-shadow 0.4s ease;
+}
+
+.card-underglow:hover {
+  box-shadow:
+    0 8px 40px -8px rgba(29, 78, 216, 0.2),
+    0 0 60px -15px rgba(14, 116, 144, 0.1);
+}
+
+/* Icon container underglow */
+.icon-underglow {
+  box-shadow: 0 0 15px rgba(29, 78, 216, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+.group:hover .icon-underglow,
+.icon-underglow:hover {
+  box-shadow: 0 0 25px rgba(29, 78, 216, 0.3), 0 4px 20px rgba(29, 78, 216, 0.15);
+}
+
+/* Avatar / gradient circle underglow */
+.avatar-underglow {
+  box-shadow: 0 4px 25px rgba(29, 78, 216, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.group:hover .avatar-underglow {
+  box-shadow: 0 6px 35px rgba(29, 78, 216, 0.45);
+}
+
+/* Nav logo underglow */
+.logo-underglow {
+  box-shadow: 0 0 18px rgba(29, 78, 216, 0.25);
+}
+
+/* 3D Shape animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate3d(1, 1, 0.5, 0deg); }
+  to { transform: rotate3d(1, 1, 0.5, 360deg); }
+}
+
+.hero-shape {
+  will-change: transform;
+}
+
+/* Grain overlay */
+.grain-overlay {
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-shape { animation: none !important; }
+  .grain-overlay { display: none; }
+}
+
+/* Contact form inputs */
+.contact-input {
+  width: 100%;
+  background: rgba(26, 26, 26, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.contact-input::placeholder {
+  color: #6b7280;
+}
+
+.contact-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* =============================================
+   LIGHT MODE OVERRIDES
+   ============================================= */
+
+[data-theme="light"] body {
+  background-color: #ffffff;
+  color: #1a1a2e;
+}
+
+/* Light mode scrollbar */
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #ccc;
+}
+
+/* Light mode glass */
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(29, 78, 216, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .glass-hover:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(29, 78, 216, 0.25);
+}
+
+/* Light mode glow — subtler */
+[data-theme="light"] .glow {
+  box-shadow: 0 0 15px rgba(29, 78, 216, 0.15);
+}
+
+[data-theme="light"] .glow-hover:hover {
+  box-shadow: 0 0 20px rgba(29, 78, 216, 0.25), 0 0 40px rgba(14, 116, 144, 0.1);
+}
+
+/* ---- Text color overrides ---- */
+[data-theme="light"] .text-white {
+  color: #1a1a2e !important;
+}
+
+/* Keep white text inside gradient buttons/badges */
+[data-theme="light"] .gradient-bg .text-white,
+[data-theme="light"] .gradient-bg.text-white {
+  color: #ffffff !important;
+}
+
+/* Keep gradient text visible in light mode */
+[data-theme="light"] .gradient-text {
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Keep white text/initials inside gradient avatar backgrounds */
+[data-theme="light"] .bg-gradient-to-br .text-white\/80 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="light"] .text-gray-300 {
+  color: #4a4a5a !important;
+}
+
+[data-theme="light"] .text-gray-400 {
+  color: #5a5a6a !important;
+}
+
+[data-theme="light"] .text-gray-500 {
+  color: #6b6b7b !important;
+}
+
+/* ---- Background overrides ---- */
+[data-theme="light"] .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="light"] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .bg-white\/\[0\.02\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="light"] .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .shadow-black\/20 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Navbar bg when scrolled */
+[data-theme="light"] .bg-transparent {
+  background-color: transparent;
+}
+
+/* Fix the via-white and via-accent divider lines */
+[data-theme="light"] .via-white\/5 {
+  --tw-gradient-via: rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .via-accent\/30 {
+  --tw-gradient-via: rgba(29, 78, 216, 0.15) !important;
+}
+
+/* ring color override for process timeline dots */
+[data-theme="light"] .ring-navy-950 {
+  --tw-ring-color: #ffffff !important;
+}
+
+/* Hero background blobs — make subtler on light */
+[data-theme="light"] .bg-accent\/10 {
+  background-color: rgba(29, 78, 216, 0.06) !important;
+}
+
+[data-theme="light"] .bg-accent\/5 {
+  background-color: rgba(29, 78, 216, 0.03) !important;
+}
+
+[data-theme="light"] .bg-secondary\/10 {
+  background-color: rgba(14, 116, 144, 0.06) !important;
+}
+
+/* Process timeline line */
+[data-theme="light"] .bg-gradient-to-b.from-accent\/50 {
+  --tw-gradient-from: rgba(29, 78, 216, 0.2) !important;
+}
+
+/* Footer border */
+[data-theme="light"] footer {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Contact form inputs — light mode */
+[data-theme="light"] .contact-input {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  color: #1a1a2e;
+}
+
+[data-theme="light"] .contact-input::placeholder {
+  color: #9ca3af;
+}
+
+[data-theme="light"] .contact-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+}
+
+/* Grain — lighter in light mode */
+[data-theme="light"] .grain-overlay {
+  opacity: 0.02;
+  mix-blend-mode: soft-light;
+}
+
+/* Underglow — subtler in light mode */
+[data-theme="light"] .btn-underglow::after {
+  opacity: 0.25;
+}
+
+[data-theme="light"] .btn-underglow:hover::after {
+  opacity: 0.4;
+}
+
+[data-theme="light"] .card-underglow:hover {
+  box-shadow:
+    0 8px 40px -8px rgba(29, 78, 216, 0.12),
+    0 0 60px -15px rgba(14, 116, 144, 0.06);
+}
+
+[data-theme="light"] .icon-underglow {
+  box-shadow: 0 0 12px rgba(29, 78, 216, 0.1);
+}
+
+[data-theme="light"] .group:hover .icon-underglow {
+  box-shadow: 0 0 20px rgba(29, 78, 216, 0.2);
+}
+
+[data-theme="light"] .avatar-underglow {
+  box-shadow: 0 4px 20px rgba(29, 78, 216, 0.2);
+}
+
+[data-theme="light"] .logo-underglow {
+  box-shadow: 0 0 14px rgba(29, 78, 216, 0.15);
+}
+
+/* Cursor spotlight — subtler in light mode */
+[data-theme="light"] .cursor-glow {
+  opacity: 0.5;
 }

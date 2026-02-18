@@ -1,9 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useTransform,
+  animate,
+  AnimatePresence,
+} from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import MagneticButton from "./MagneticButton";
 
+/* ─── Counter ─── */
 function Counter({ target, label }: { target: number; label: string }) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (v) => Math.round(v));
@@ -11,15 +21,16 @@ function Counter({ target, label }: { target: number; label: string }) {
   const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
-    if (isInView) {
-      animate(count, target, { duration: 2, ease: "easeOut" });
-    }
+    if (isInView) animate(count, target, { duration: 2, ease: "easeOut" });
   }, [isInView, count, target]);
 
   return (
     <div ref={ref} className="text-center">
       <div className="flex items-center justify-center gap-1">
-        <motion.span className="text-3xl md:text-4xl font-bold text-white">
+        <motion.span
+          className="text-3xl md:text-4xl font-bold text-white inline-block text-right"
+          style={{ fontVariantNumeric: "tabular-nums", width: target >= 100 ? "3ch" : "2ch" }}
+        >
           {rounded}
         </motion.span>
         <span className="text-3xl md:text-4xl font-bold text-accent">+</span>
@@ -29,60 +40,103 @@ function Counter({ target, label }: { target: number; label: string }) {
   );
 }
 
+/* ─── Word cycling ─── */
+const words = ["AI Solutions", "Web Development", "Data Analytics", "Cloud Technology"];
+
+function WordCycle() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % words.length), 2500);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.span
+        key={words[index]}
+        className="gradient-text"
+        initial={{ y: "100%", opacity: 0 }}
+        animate={{ y: "0%", opacity: 1 }}
+        exit={{ y: "-100%", opacity: 0 }}
+        transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+      >
+        {words[index]}
+      </motion.span>
+    </AnimatePresence>
+  );
+}
+
+/* ─── Character reveal ─── */
+function CharReveal({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <span ref={ref} className={className} aria-label={text}>
+      {text.split("").map((char, i) => (
+        <motion.span
+          key={`${char}-${i}`}
+          className="inline-block"
+          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.4, delay: delay + i * 0.03, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
+/* ─── Fade-up helper ─── */
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 25, filter: "blur(6px)" },
+  animate: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
+});
+
+/* ─── Hero ─── */
 export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8"
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl" />
-      </div>
-
-      {/* Grid pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* Main content */}
+      <div className="relative z-10 text-center max-w-5xl">
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          {...fadeUp(0.1)}
           className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8"
         >
           <Sparkles className="w-4 h-4 text-accent" />
-          <span className="text-sm text-gray-300">
-            Powering the next generation of digital solutions
+          <span className="text-sm text-gray-300">Your technology partner for growth</span>
+        </motion.div>
+
+        {/* Headline line 1 */}
+        <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-2">
+          <CharReveal text="We Build the Future" className="text-white" delay={0.3} />
+        </div>
+
+        {/* Headline line 2 — "with" + cycling word */}
+        <motion.div
+          {...fadeUp(1.0)}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 overflow-hidden"
+        >
+          <span className="text-white">with </span>
+          <span className="inline-block overflow-hidden h-[1.2em] align-bottom">
+            <WordCycle />
           </span>
         </motion.div>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6"
-        >
-          We Build the Future
-          <br />
-          <span className="gradient-text">with AI & Technology</span>
-        </motion.h1>
-
         {/* Subtitle */}
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          {...fadeUp(1.4)}
           className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10"
         >
           From intelligent AI bots to stunning web experiences and powerful data
@@ -91,41 +145,43 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          {...fadeUp(1.7)}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
-          <a
-            href="#services"
-            className="gradient-bg text-white px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity glow"
-          >
-            Our Services
-            <ArrowRight className="w-4 h-4" />
-          </a>
-          <a
-            href="#contact"
-            className="glass glass-hover text-white px-8 py-3.5 rounded-full font-semibold transition-all"
-          >
-            Contact Us
-          </a>
+          <MagneticButton>
+            <Link
+              href="/contact"
+              className="gradient-bg text-white px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity glow btn-underglow"
+            >
+              Start a Project
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </MagneticButton>
+          <MagneticButton magneticStrength={6}>
+            <Link
+              href="/about"
+              className="glass glass-hover text-white px-8 py-3.5 rounded-full font-semibold transition-all btn-underglow-secondary"
+            >
+              Learn About Us
+            </Link>
+          </MagneticButton>
         </motion.div>
+      </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="glass rounded-2xl p-8 max-w-3xl mx-auto"
-        >
+      {/* Stats — completely independent container */}
+      <motion.div
+        {...fadeUp(2.0)}
+        className="relative z-10 w-full max-w-3xl"
+      >
+        <div className="glass rounded-2xl p-8 card-underglow">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <Counter target={50} label="Projects Completed" />
             <Counter target={30} label="Happy Clients" />
             <Counter target={15} label="Team Members" />
             <Counter target={3} label="Years Experience" />
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   );
 }
