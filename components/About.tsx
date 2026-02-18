@@ -111,7 +111,7 @@ export default function About() {
             <span className="gradient-text">Innovation</span>
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            We&apos;re NexGen Solutions — a technology agency specializing in AI
+            We&apos;re Data Mentor Labs — a technology agency specializing in AI
             bots, web development, and data analytics, trusted by growing
             businesses worldwide.
           </p>
@@ -130,7 +130,7 @@ export default function About() {
           <div className="glass rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
             <p className="text-gray-400 leading-relaxed text-base md:text-lg">
               Founded with a mission to make powerful technology accessible to
-              businesses of all sizes, NexGen Solutions began as a small web
+              businesses of all sizes, Data Mentor Labs began as a small web
               development studio. As the world evolved, so did we — expanding
               into cutting-edge AI solutions and data analytics, serving
               companies building the future of their industries. Today we combine
@@ -290,7 +290,7 @@ export default function About() {
                 </p>
                 <p className="text-gray-400 text-sm leading-relaxed mb-5">
                   With over a decade of experience in AI, software engineering,
-                  and business strategy, Alex founded NexGen Solutions to bridge
+                  and business strategy, Alex founded Data Mentor Labs to bridge
                   the gap between cutting-edge technology and real business
                   needs.
                 </p>

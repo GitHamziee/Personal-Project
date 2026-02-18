@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
-import { Menu, X, Zap, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import Image from "next/image";
 import { useTheme } from "next-themes";
 
 const navLinks = [
@@ -55,13 +56,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center logo-underglow">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-white group-hover:text-accent transition-colors">
-              NexGen<span className="text-accent">.</span>
-            </span>
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/assets/logo.png"
+              alt="Data Mentor Labs"
+              width={440}
+              height={160}
+              className="h-40 w-auto -my-14"
+              priority
+            />
           </Link>
 
           {/* Desktop Links */}

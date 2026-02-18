@@ -7,9 +7,9 @@ import GrainOverlay from "@/components/GrainOverlay";
 import HeroScene from "@/components/HeroScene";
 
 export const metadata: Metadata = {
-  title: "NexGen Solutions - AI, Web Development & Data Analytics Agency",
+  title: "Data Mentor Labs - AI, Web Development & Data Analytics Agency",
   description:
-    "NexGen Solutions is a cutting-edge technology agency specializing in AI bot creation, web development, and data analytics. We build the future with technology.",
+    "Data Mentor Labs is a cutting-edge technology agency specializing in AI bot creation, web development, and data analytics. We build the future with technology.",
   keywords: [
     "AI bots",
     "web development",

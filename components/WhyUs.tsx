@@ -54,7 +54,7 @@ export default function WhyUs() {
             transition={{ duration: 0.6 }}
           >
             <p className="text-sm text-accent uppercase tracking-widest mb-4">
-              Why NexGen
+              Why Data Mentor Labs
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
               We don&apos;t just build software.{" "}

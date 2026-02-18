@@ -1,15 +1,16 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
+import { useRef, useState, FormEvent } from "react";
+import { Mail, Phone, MapPin, Send, MessageCircle, Loader2, CheckCircle } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@nexgensolutions.com",
-    href: "mailto:hello@nexgensolutions.com",
+    value: "hello@datamentorlabs.com",
+    href: "mailto:hello@datamentorlabs.com",
   },
   {
     icon: Phone,
@@ -101,7 +102,36 @@ function PeekingCharacter() {
 
 export default function Contact() {
   const ref = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+
+    setLoading(true);
+    setError("");
+    setSuccess(false);
+
+    try {
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        formRef.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+      );
+      setSuccess(true);
+      formRef.current.reset();
+    } catch {
+      setError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section id="contact" className="pt-16 pb-32 relative overflow-hidden" ref={ref}>
@@ -140,7 +170,7 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-3"
           >
-            <form className="glass rounded-2xl p-8 md:p-10 space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="glass rounded-2xl p-8 md:p-10 space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm text-gray-400 mb-2 font-medium">
@@ -148,6 +178,8 @@ export default function Contact() {
                   </label>
                   <input
                     type="text"
+                    name="user_name"
+                    required
                     placeholder="John Doe"
                     className="contact-input"
                   />
@@ -158,6 +190,8 @@ export default function Contact() {
                   </label>
                   <input
                     type="email"
+                    name="user_email"
+                    required
                     placeholder="john@example.com"
                     className="contact-input"
                   />
@@ -170,6 +204,8 @@ export default function Contact() {
                 </label>
                 <input
                   type="text"
+                  name="subject"
+                  required
                   placeholder="How can we help?"
                   className="contact-input"
                 />
@@ -181,19 +217,54 @@ export default function Contact() {
                 </label>
                 <textarea
                   rows={5}
+                  name="message"
+                  required
                   placeholder="Tell us about your project..."
                   className="contact-input resize-none"
                 />
               </div>
 
+              {/* Success message */}
+              {success && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-2 text-green-400 text-sm"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  Message sent successfully! We&apos;ll get back to you soon.
+                </motion.div>
+              )}
+
+              {/* Error message */}
+              {error && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-400 text-sm"
+                >
+                  {error}
+                </motion.p>
+              )}
+
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="gradient-bg text-white px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity glow btn-underglow"
+                disabled={loading}
+                whileHover={loading ? {} : { scale: 1.02 }}
+                whileTap={loading ? {} : { scale: 0.98 }}
+                className="gradient-bg text-white px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity glow btn-underglow disabled:opacity-60"
               >
-                Send Message
-                <Send className="w-4 h-4" />
+                {loading ? (
+                  <>
+                    Sending...
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send className="w-4 h-4" />
+                  </>
+                )}
               </motion.button>
             </form>
           </motion.div>

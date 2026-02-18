@@ -10,7 +10,7 @@ const testimonials = [
     name: "Sarah Johnson",
     role: "CEO, TechStart Inc.",
     content:
-      "NexGen Solutions transformed our customer support with an AI chatbot that handles 80% of queries automatically. Our response time went from hours to seconds.",
+      "Data Mentor Labs transformed our customer support with an AI chatbot that handles 80% of queries automatically. Our response time went from hours to seconds.",
     rating: 5,
   },
   {
@@ -31,7 +31,7 @@ const testimonials = [
     name: "David Park",
     role: "Director, InnovateCo",
     content:
-      "Working with NexGen was seamless. They understood our vision from day one and executed it flawlessly. Highly recommend their services.",
+      "Working with Data Mentor Labs was seamless. They understood our vision from day one and executed it flawlessly. Highly recommend their services.",
     rating: 5,
   },
   {

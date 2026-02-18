@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Zap, Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import Image from "next/image";
 
 const quickLinks = [
   { name: "Home", href: "/" },
@@ -31,13 +32,14 @@ export default function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">
-                NexGen<span className="text-accent">.</span>
-              </span>
+            <Link href="/" className="flex items-center mb-4">
+              <Image
+                src="/assets/logo.png"
+                alt="Data Mentor Labs"
+                width={440}
+                height={160}
+                className="h-40 w-auto"
+              />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
               Building the future with AI & technology. We transform ideas into
@@ -96,7 +98,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} NexGen Solutions. All rights
+            &copy; {new Date().getFullYear()} Data Mentor Labs. All rights
             reserved.
           </p>
           <div className="flex items-center gap-6">

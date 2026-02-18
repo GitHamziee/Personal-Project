@@ -139,8 +139,8 @@ export default function Hero() {
           {...fadeUp(1.4)}
           className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10"
         >
-          From intelligent AI bots to stunning web experiences and powerful data
-          insights — we transform your ideas into digital reality.
+          We help businesses grow through smart AI tools, modern websites, and
+          data-driven strategies, turning complex challenges into simple, effective solutions.
         </motion.p>
 
         {/* CTA Buttons */}
