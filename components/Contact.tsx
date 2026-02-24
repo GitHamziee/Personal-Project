@@ -26,79 +26,6 @@ const contactInfo = [
   },
 ];
 
-function PeekingCharacter() {
-  return (
-    <motion.div
-      initial={{ x: 80, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-      className="absolute -right-4 md:right-0 bottom-32 md:bottom-24 z-20 pointer-events-none hidden lg:block"
-    >
-      <svg
-        width="140"
-        height="200"
-        viewBox="0 0 140 200"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Body */}
-        <rect x="30" y="60" width="80" height="100" rx="40" fill="#1d4ed8" />
-        {/* Head */}
-        <circle cx="70" cy="50" r="35" fill="#1d4ed8" />
-        {/* Eyes — white sclera */}
-        <ellipse cx="57" cy="45" rx="9" ry="10" fill="white" />
-        <ellipse cx="83" cy="45" rx="9" ry="10" fill="white" />
-        {/* Pupils — looking left toward the form */}
-        <circle cx="54" cy="46" r="5" fill="#1a1a2e" />
-        <circle cx="80" cy="46" r="5" fill="#1a1a2e" />
-        {/* Eye shine */}
-        <circle cx="56" cy="44" r="2" fill="white" />
-        <circle cx="82" cy="44" r="2" fill="white" />
-        {/* Smile */}
-        <path
-          d="M58 60 Q70 72 82 60"
-          stroke="#1a1a2e"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          fill="none"
-        />
-        {/* Left arm waving */}
-        <motion.g
-          animate={{ rotate: [0, -12, 0, -12, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-          style={{ originX: "30px", originY: "90px" }}
-        >
-          <rect x="5" y="80" width="30" height="14" rx="7" fill="#1e40af" />
-          {/* Hand */}
-          <circle cx="8" cy="87" r="8" fill="#1e40af" />
-        </motion.g>
-        {/* Right arm holding onto the edge */}
-        <rect x="105" y="85" width="30" height="14" rx="7" fill="#1e40af" />
-        {/* Feet */}
-        <ellipse cx="50" cy="162" rx="14" ry="8" fill="#1e40af" />
-        <ellipse cx="90" cy="162" rx="14" ry="8" fill="#1e40af" />
-        {/* Speech bubble */}
-        <motion.g
-          animate={{ y: [0, -4, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <rect x="0" y="2" width="54" height="28" rx="14" fill="white" />
-          <polygon points="40,28 48,38 34,28" fill="white" />
-          <text
-            x="27"
-            y="20"
-            textAnchor="middle"
-            fontSize="11"
-            fontWeight="bold"
-            fill="#1d4ed8"
-          >
-            Hi! 👋
-          </text>
-        </motion.g>
-      </svg>
-    </motion.div>
-  );
-}
 
 export default function Contact() {
   const ref = useRef(null);
@@ -135,9 +62,6 @@ export default function Contact() {
 
   return (
     <section id="contact" className="pt-16 pb-32 relative overflow-hidden" ref={ref}>
-      {/* Peeking character on the right */}
-      <PeekingCharacter />
-
       {/* Background accents */}
       <div className="absolute top-1/3 -left-32 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />

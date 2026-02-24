@@ -62,7 +62,7 @@ export default function Navbar() {
               alt="Data Mentor Labs"
               width={440}
               height={160}
-              className="h-40 w-auto -my-14"
+              className="h-16 w-auto"
               priority
             />
           </Link>

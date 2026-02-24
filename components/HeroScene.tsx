@@ -270,7 +270,7 @@ export default function HeroScene() {
   const spotY = useTransform(spotlightY, (v) => v + dims.h / 2 - 200);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" style={{ perspective: "1200px" }}>
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 hero-scene" style={{ perspective: "1200px" }}>
       {/* Cursor spotlight */}
       <motion.div
         className="cursor-glow absolute w-[500px] h-[500px] rounded-full"

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 import GrainOverlay from "@/components/GrainOverlay";
 import HeroScene from "@/components/HeroScene";
+import ChatBot from "@/components/ChatBot";
 
 export const metadata: Metadata = {
   title: "Data Mentor Labs - AI, Web Development & Data Analytics Agency",
@@ -38,6 +39,7 @@ export default function RootLayout({
           <Navbar />
           <main className="pt-20 relative z-10">{children}</main>
           <Footer />
+          <ChatBot />
           <GrainOverlay />
         </ThemeProvider>
       </body>

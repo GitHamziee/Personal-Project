@@ -180,7 +180,7 @@ export default function Process() {
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-14 h-14 rounded-xl bg-gradient-to-br ${step.accent} flex items-center justify-center shrink-0 icon-underglow`}
+                        className={`w-14 h-14 rounded-xl gradient-bg flex items-center justify-center shrink-0 icon-underglow`}
                       >
                         <step.icon className="w-7 h-7 text-white" />
                       </div>

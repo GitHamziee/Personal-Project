@@ -266,9 +266,10 @@ body {
   color: #1a1a2e !important;
 }
 
-/* Keep white text inside gradient buttons/badges */
+/* Keep white text inside gradient backgrounds */
 [data-theme="light"] .gradient-bg .text-white,
-[data-theme="light"] .gradient-bg.text-white {
+[data-theme="light"] .gradient-bg.text-white,
+[data-theme="light"] [class*="bg-gradient-to"] .text-white {
   color: #ffffff !important;
 }
 
@@ -423,3 +424,8 @@ body {
 [data-theme="light"] .cursor-glow {
   opacity: 0.5;
 }
+
+[data-theme="light"] .hero-scene {
+  opacity: 0.3;
+}
+
