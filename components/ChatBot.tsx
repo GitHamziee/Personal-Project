@@ -37,7 +37,6 @@ export default function ChatBot() {
     setLoading(true);
 
     // Placeholder response — swap back to API call once Grok credits are active
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     setMessages((prev) => [
       ...prev,
       { role: "assistant", content: "This feature is coming soon! Stay tuned." },
