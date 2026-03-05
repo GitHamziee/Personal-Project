@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import About from "@/components/About";
 
 export const metadata: Metadata = {
-  title: "About Us - Data Mentor Labs",
+  title: "About Us - NexaFlow",
   description:
-    "Learn about Data Mentor Labs — a team of passionate innovators building the future with AI, web development, and data analytics.",
+    "Learn about NexaFlow — a results-driven agency helping businesses grow with web development, SEO, lead generation, and CRM automation.",
 };
 
 export default function AboutPage() {

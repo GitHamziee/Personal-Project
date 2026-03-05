@@ -2,21 +2,18 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ThemeProvider from "@/components/ThemeProvider";
-import GrainOverlay from "@/components/GrainOverlay";
-import HeroScene from "@/components/HeroScene";
-import ChatBot from "@/components/ChatBot";
 
 export const metadata: Metadata = {
-  title: "Data Mentor Labs - AI, Web Development & Data Analytics Agency",
+  title: "NexaFlow - Web Development, SEO & Lead Generation Agency",
   description:
-    "Data Mentor Labs is a cutting-edge technology agency specializing in AI bot creation, web development, and data analytics. We build the future with technology.",
+    "NexaFlow helps businesses grow with high-performance websites, SEO, lead generation, cold calling, and CRM automation. Results-driven digital solutions.",
   keywords: [
-    "AI bots",
-    "web development",
-    "data analytics",
-    "technology agency",
-    "AI solutions",
+    "web development agency",
+    "SEO services",
+    "lead generation",
+    "cold calling",
+    "CRM solutions",
+    "digital agency",
   ],
 };
 
@@ -26,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -34,14 +31,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ThemeProvider>
-          <HeroScene />
-          <Navbar />
-          <main className="pt-20 relative z-10">{children}</main>
-          <Footer />
-          <ChatBot />
-          <GrainOverlay />
-        </ThemeProvider>
+        <Navbar />
+        <main className="pt-16">{children}</main>
+        <Footer />
       </body>
     </html>
   );

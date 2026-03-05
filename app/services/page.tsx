@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Services from "@/components/Services";
 
 export const metadata: Metadata = {
-  title: "Our Services - Data Mentor Labs",
+  title: "Our Services - NexaFlow",
   description:
-    "Explore our services: AI Bots Creation, Web Development, and Data Analytics. We deliver solutions that drive real business growth.",
+    "Web development, SEO, cold calling, lead generation, and CRM solutions. NexaFlow delivers the full growth stack for your business.",
 };
 
 export default function ServicesPage() {

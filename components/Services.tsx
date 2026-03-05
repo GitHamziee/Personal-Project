@@ -1,391 +1,238 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import TiltCard from "./TiltCard";
+import Link from "next/link";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import {
   Globe,
-  BarChart3,
-  Bot,
+  Search,
+  PhoneCall,
   Target,
-  Clock,
-  Users,
-  Award,
-  Zap,
-  TrendingUp,
-  Shield,
-  Code2,
-  Database,
-  Brain,
-  MessageSquare,
-  Workflow,
+  Settings,
+  ArrowRight,
+  Check,
   type LucideIcon,
 } from "lucide-react";
 
-interface Stat {
-  icon: LucideIcon;
-  value: string;
-  label: string;
-  description: string;
-}
-
-interface Solution {
+interface Service {
   icon: LucideIcon;
   title: string;
   description: string;
-  items: string[];
+  features: string[];
+  href: string;
+  gradient: string;
+  shadowColor: string;
 }
 
-interface ServiceTab {
-  id: string;
-  label: string;
-  icon: LucideIcon;
-  tagline: string;
-  title: string;
-  titleHighlight: string;
-  description: string;
-  stats: Stat[];
-  solutions: Solution[];
-}
-
-const tabs: ServiceTab[] = [
+const services: Service[] = [
   {
-    id: "web",
-    label: "Web Development",
     icon: Globe,
-    tagline: "Build your digital presence",
-    title: "Web",
-    titleHighlight: "Development",
+    title: "Web Development",
     description:
-      "End-to-end web development solutions from responsive landing pages to complex SaaS platforms. We build fast, scalable, and beautiful web experiences using modern frameworks and best practices.",
-    stats: [
-      {
-        icon: Target,
-        value: "99.9%",
-        label: "Uptime",
-        description: "Reliable and performant applications",
-      },
-      {
-        icon: Clock,
-        value: "2-6",
-        label: "Weeks Delivery",
-        description: "Fast turnaround on projects",
-      },
-      {
-        icon: Users,
-        value: "50+",
-        label: "Projects Shipped",
-        description: "Across diverse industries",
-      },
-      {
-        icon: Award,
-        value: "100%",
-        label: "Responsive",
-        description: "Mobile-first design approach",
-      },
+      "Custom websites and web applications built for performance, conversion, and scale. From landing pages to full SaaS platforms.",
+    features: [
+      "Responsive design",
+      "Performance optimization",
+      "E-commerce solutions",
+      "CMS integration",
+      "Web applications",
+      "Ongoing maintenance",
     ],
-    solutions: [
-      {
-        icon: Code2,
-        title: "Full-Stack Web Applications",
-        description:
-          "Custom web applications built with modern frameworks for maximum performance, scalability, and maintainability.",
-        items: [
-          "Next.js & React",
-          "Node.js & Express",
-          "REST & GraphQL APIs",
-          "Database Design",
-          "Cloud Deployment",
-          "CI/CD Pipelines",
-        ],
-      },
-      {
-        icon: Globe,
-        title: "E-Commerce & Landing Pages",
-        description:
-          "Conversion-optimized websites and storefronts that turn visitors into customers with stunning design and seamless UX.",
-        items: [
-          "Shopify & Custom Stores",
-          "Payment Integration",
-          "SEO Optimization",
-          "Performance Tuning",
-          "A/B Testing Ready",
-          "Analytics Integration",
-        ],
-      },
-    ],
+    href: "/services/web-development",
+    gradient: "from-blue-500 to-indigo-600",
+    shadowColor: "shadow-blue-500/20",
   },
   {
-    id: "data",
-    label: "Data Analytics",
-    icon: BarChart3,
-    tagline: "Turn data into decisions",
-    title: "Data",
-    titleHighlight: "Analytics",
+    icon: Search,
+    title: "SEO",
     description:
-      "Transform your raw data into actionable business intelligence. We build custom dashboards, data pipelines, and predictive models that give you a competitive edge through data-driven decision making.",
-    stats: [
-      {
-        icon: TrendingUp,
-        value: "3x",
-        label: "Faster Insights",
-        description: "Compared to manual reporting",
-      },
-      {
-        icon: Database,
-        value: "10M+",
-        label: "Records Processed",
-        description: "Daily across client pipelines",
-      },
-      {
-        icon: Shield,
-        value: "100%",
-        label: "Data Security",
-        description: "Enterprise-grade compliance",
-      },
-      {
-        icon: Zap,
-        value: "Real-time",
-        label: "Dashboards",
-        description: "Live monitoring & alerts",
-      },
+      "Data-driven search engine optimization that drives organic traffic and puts your business in front of high-intent buyers.",
+    features: [
+      "Technical SEO audits",
+      "On-page optimization",
+      "Content strategy",
+      "Link building",
+      "Local SEO",
+      "Analytics & reporting",
     ],
-    solutions: [
-      {
-        icon: BarChart3,
-        title: "Business Intelligence & Dashboards",
-        description:
-          "Interactive dashboards and reporting tools that give your team real-time visibility into the metrics that matter most.",
-        items: [
-          "Power BI & Tableau",
-          "Custom Dashboards",
-          "KPI Tracking",
-          "Automated Reports",
-          "Data Visualization",
-          "Executive Summaries",
-        ],
-      },
-      {
-        icon: Database,
-        title: "Data Engineering & Pipelines",
-        description:
-          "Robust data infrastructure that collects, transforms, and delivers clean data to the right systems at the right time.",
-        items: [
-          "ETL Pipelines",
-          "Data Warehousing",
-          "Apache Spark & Airflow",
-          "Cloud Data Lakes",
-          "Data Quality Checks",
-          "Schema Management",
-        ],
-      },
-    ],
+    href: "/services/seo",
+    gradient: "from-violet-500 to-purple-600",
+    shadowColor: "shadow-violet-500/20",
   },
   {
-    id: "ai",
-    label: "AI Bots & Automation",
-    icon: Bot,
-    tagline: "Automate with intelligence",
-    title: "AI Bots &",
-    titleHighlight: "Automation",
+    icon: PhoneCall,
+    title: "Cold Calling",
     description:
-      "Intelligent chatbots, virtual assistants, and AI-powered automation that handle customer queries, streamline workflows, and deliver personalized experiences around the clock.",
-    stats: [
-      {
-        icon: MessageSquare,
-        value: "80%",
-        label: "Queries Automated",
-        description: "Reducing support workload",
-      },
-      {
-        icon: Clock,
-        value: "<2s",
-        label: "Response Time",
-        description: "Instant AI-powered replies",
-      },
-      {
-        icon: Zap,
-        value: "24/7",
-        label: "Availability",
-        description: "Always-on intelligent support",
-      },
-      {
-        icon: TrendingUp,
-        value: "45%",
-        label: "More Conversions",
-        description: "With AI lead qualification",
-      },
+      "Trained outbound calling teams that book qualified meetings and fill your sales calendar consistently.",
+    features: [
+      "Script development",
+      "Appointment setting",
+      "Lead qualification",
+      "CRM integration",
+      "Call recording & QA",
+      "Daily reporting",
     ],
-    solutions: [
-      {
-        icon: Brain,
-        title: "Custom AI Chatbots",
-        description:
-          "Context-aware chatbots powered by the latest LLMs that understand your business and engage customers naturally.",
-        items: [
-          "GPT & LLM Integration",
-          "RAG Pipelines",
-          "Multi-language Support",
-          "Custom Training Data",
-          "Sentiment Analysis",
-          "Handoff to Human Agents",
-        ],
-      },
-      {
-        icon: Workflow,
-        title: "Workflow Automation",
-        description:
-          "AI-driven automation that eliminates repetitive tasks, routes information intelligently, and keeps your operations running smoothly.",
-        items: [
-          "Process Automation",
-          "Email & Ticket Routing",
-          "Document Processing",
-          "Lead Scoring & Qualification",
-          "CRM Integration",
-          "Custom API Workflows",
-        ],
-      },
+    href: "/services/cold-calling",
+    gradient: "from-emerald-500 to-teal-600",
+    shadowColor: "shadow-emerald-500/20",
+  },
+  {
+    icon: Target,
+    title: "Lead Generation",
+    description:
+      "Multi-channel outreach campaigns that fill your pipeline with qualified prospects ready to buy.",
+    features: [
+      "Email campaigns",
+      "LinkedIn outreach",
+      "Landing page creation",
+      "Lead scoring",
+      "Pipeline management",
+      "A/B testing",
     ],
+    href: "/services/lead-generation",
+    gradient: "from-amber-500 to-orange-600",
+    shadowColor: "shadow-amber-500/20",
+  },
+  {
+    icon: Settings,
+    title: "CRM Solutions",
+    description:
+      "Custom CRM setup, migration, and workflow automation that keeps your sales team focused on closing.",
+    features: [
+      "CRM setup & migration",
+      "Workflow automation",
+      "Pipeline management",
+      "Reporting dashboards",
+      "Third-party integrations",
+      "Team training",
+    ],
+    href: "/services/crm-solutions",
+    gradient: "from-rose-500 to-pink-600",
+    shadowColor: "shadow-rose-500/20",
   },
 ];
 
 export default function Services() {
-  const [activeTab, setActiveTab] = useState("web");
-  const current = tabs.find((t) => t.id === activeTab)!;
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="services" className="pt-16 pb-32 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Tab Pills */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex gap-2 glass rounded-full p-1.5">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? "gradient-bg text-white shadow-lg"
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                <tab.icon className="w-4 h-4" />
-                <span className="hidden sm:inline">{tab.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+    <div className="pb-0" ref={ref}>
+      {/* Header */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        <div className="absolute inset-0 mesh-gradient-strong" />
+        <div className="absolute inset-0 grid-pattern opacity-40" />
+        <div className="blob blob-accent w-[500px] h-[500px] top-[-150px] right-[-100px]" />
+        <div className="blob blob-purple w-[400px] h-[400px] bottom-[-80px] left-[-80px]" />
+        <div className="absolute top-24 right-[15%] w-16 h-16 border border-indigo-200/20 rounded-xl rotate-12 animate-float-slow" />
 
-        {/* Tab Content */}
-        <AnimatePresence mode="wait">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            key={current.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.6 }}
           >
-            {/* Tagline + Title + Description */}
-            <div className="text-center mb-16 max-w-3xl mx-auto">
-              <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-                {current.tagline}
-              </span>
-              <h2 className="text-3xl md:text-5xl font-extrabold text-white mt-3 mb-6">
-                {current.title}{" "}
-                <span className="gradient-text">{current.titleHighlight}</span>
-              </h2>
-              <p className="text-gray-400 text-lg leading-relaxed">
-                {current.description}
-              </p>
+            <div className="inline-flex items-center gap-2 badge mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              <span className="text-xs font-semibold text-accent uppercase tracking-wider">Our Services</span>
             </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6 max-w-4xl">
+              The full growth stack for your{" "}
+              <span className="text-gradient-rich">business</span>
+            </h1>
+            <p className="text-secondary text-lg md:text-xl max-w-2xl">
+              From building your digital presence to filling your pipeline with
+              qualified leads, we handle it all.
+            </p>
+            <div className="w-24 h-1 bg-gradient-to-r from-accent to-accent-light rounded-full mt-8" />
+          </motion.div>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
+      </section>
 
-            {/* Stats Row */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
-              {current.stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                >
-                  <TiltCard tiltIntensity={8} className="glass rounded-xl p-6 text-center group hover:border-accent/30 transition-all duration-300 h-full">
-                    <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-accent/20 transition-colors icon-underglow">
-                      <stat.icon className="w-5 h-5 text-accent" />
-                    </div>
-                    <p className="text-2xl md:text-3xl font-extrabold text-white">
-                      {stat.value}
-                    </p>
-                    <p className="text-white font-semibold text-sm mt-1">
-                      {stat.label}
-                    </p>
-                    <p className="text-gray-500 text-xs mt-1">
-                      {stat.description}
-                    </p>
-                  </TiltCard>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Solutions */}
-            <div className="space-y-6">
-              {current.solutions.map((solution, index) => (
-                <motion.div
-                  key={solution.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.15 }}
-                  className={`glass rounded-2xl overflow-hidden ${
-                    index % 2 === 0 ? "" : ""
-                  }`}
-                >
-                  <div
-                    className={`grid md:grid-cols-5 gap-0 ${
-                      index % 2 !== 0 ? "direction-rtl" : ""
-                    }`}
-                  >
-                    {/* Icon + Title side */}
-                    <div
-                      className={`md:col-span-2 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b md:border-b-0 border-white/5 ${
-                        index % 2 !== 0
-                          ? "md:order-2 md:border-l"
-                          : "md:border-r"
-                      } md:border-white/5`}
-                    >
-                      <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mb-4 icon-underglow">
-                        <solution.icon className="w-8 h-8 text-accent" />
-                      </div>
-                      <h4 className="text-xl font-bold text-white">
-                        {solution.title}
-                      </h4>
-                    </div>
-
-                    {/* Details side */}
-                    <div
-                      className={`md:col-span-3 p-8 md:p-10 ${
-                        index % 2 !== 0 ? "md:order-1" : ""
-                      }`}
-                    >
-                      <p className="text-gray-400 leading-relaxed mb-6">
-                        {solution.description}
-                      </p>
-                      <div className="grid grid-cols-2 gap-3">
-                        {solution.items.map((item) => (
-                          <div key={item} className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                            <span className="text-gray-300 text-sm">
-                              {item}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+      {/* Services List */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 mesh-gradient opacity-30" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pb-16">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="card-glow overflow-hidden group"
+            >
+              <div className="grid md:grid-cols-5 gap-0">
+                {/* Left — Icon + Title */}
+                <div className="md:col-span-2 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-slate-100">
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-4 shadow-lg ${service.shadowColor} group-hover:scale-110 transition-transform`}>
+                    <service.icon className="w-8 h-8 text-white" />
                   </div>
-                </motion.div>
-              ))}
+                  <h2 className="text-xl font-bold text-slate-900 mb-2">
+                    {service.title}
+                  </h2>
+                  <Link
+                    href={service.href}
+                    className="text-accent text-sm font-medium inline-flex items-center gap-1 hover:gap-2 transition-all mt-2"
+                  >
+                    View details <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+
+                {/* Right — Description + Features */}
+                <div className="md:col-span-3 p-8 md:p-10">
+                  <p className="text-secondary leading-relaxed mb-6">
+                    {service.description}
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {service.features.map((feature) => (
+                      <div key={feature} className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                          <Check className="w-2.5 h-2.5 text-accent" />
+                        </div>
+                        <span className="text-slate-600 text-sm">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-16 relative overflow-hidden">
+        <div className="absolute inset-0 mesh-gradient opacity-30" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="cta-gradient rounded-3xl p-12 md:p-16 text-center relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="absolute inset-0 shimmer" />
+
+            <div className="relative z-10">
+              <p className="text-indigo-200/80 text-lg mb-3">
+                Not sure which service is right for you?
+              </p>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
+                Let&apos;s find the perfect fit
+              </h2>
+              <Link
+                href="/contact"
+                className="bg-white text-accent hover:bg-indigo-50 px-8 py-3.5 rounded-full font-semibold inline-flex items-center gap-2 transition-all text-sm shadow-xl shadow-indigo-900/20 hover:-translate-y-0.5"
+              >
+                Book a Free Consultation
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </motion.div>
-        </AnimatePresence>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   );
 }

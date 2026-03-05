@@ -1,6 +1,9 @@
 import Hero from "@/components/Hero";
 import TrustedBy from "@/components/TrustedBy";
-import WhyUs from "@/components/WhyUs";
+import ServicesOverview from "@/components/ServicesOverview";
+import ProcessSteps from "@/components/ProcessSteps";
+import Results from "@/components/Results";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import CTABanner from "@/components/CTABanner";
 
 export default function Home() {
@@ -8,7 +11,10 @@ export default function Home() {
     <>
       <Hero />
       <TrustedBy />
-      <WhyUs />
+      <ServicesOverview />
+      <ProcessSteps />
+      <Results />
+      <TestimonialsSection />
       <CTABanner />
     </>
   );

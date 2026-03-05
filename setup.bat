@@ -1,6 +1,6 @@
 @echo off
 echo ============================================
-echo   Data Mentor Labs - Project Setup
+echo   NexaFlow - Project Setup
 echo ============================================
 echo.
 
